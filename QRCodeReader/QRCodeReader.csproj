@@ -60,6 +60,10 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CosmosApi\Cosmos.cs" />
+    <Compile Include="CosmosApi\CosmosWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
