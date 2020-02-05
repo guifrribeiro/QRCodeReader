@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Android.App;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V7.App;
 using Android.Views;
-using Android.Widget;
+using QRCodeReader.Services;
+using ZXing.Mobile;
 
 namespace QRCodeReader
 {
@@ -16,6 +18,9 @@ namespace QRCodeReader
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            MobileBarcodeScanner.Initialize(this.Application);
+
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
 
@@ -43,18 +48,38 @@ namespace QRCodeReader
             return base.OnOptionsItemSelected(item);
         }
 
-        private void FabOnClick(object sender, EventArgs eventArgs)
+        //private void FabOnClick(object sender, EventArgs eventArgs)
+        //{
+        //    View view = (View) sender;
+        //    Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
+        //        .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+        //}
+
+        private async void FabOnClick(object sender, EventArgs eventArgs) => await OpenScan(sender);
+
+        private async Task OpenScan(object sender)
         {
+            var scanner = new QRCodeReaderService();
+            var result = await scanner.ReaderAsync();
+            string code = string.Empty;
+            
+            if (!string.IsNullOrEmpty(result))
+            {
+                code = result;
+            }
+
             View view = (View) sender;
-            Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
-                .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+            Snackbar.Make(view, $@"This is the bar code: {code}", Snackbar.LengthLong)
+                .SetAction("Action", (View.IOnClickListener)null).Show();
         }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            //Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            //base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            global::ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-	}
+    }
 }
 
