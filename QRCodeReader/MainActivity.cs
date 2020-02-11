@@ -68,8 +68,8 @@ namespace QRCodeReader
                 code = result;
             }
 
-            var url = "https://api.cosmos.bluesoft.com.br/gtins/7891910000197.json";
-            string response = CosmosApi.Cosmos.GetProductInfo(url);
+            var url = $@"https://api.cosmos.bluesoft.com.br/gtins/{code}";
+            var response = CosmosApi.Cosmos.GetProductInfo(url);
 
             View view = (View) sender;
             Snackbar.Make(view, $@"This is the bar code: {code}. The info of product is: {response}.", Snackbar.LengthLong)

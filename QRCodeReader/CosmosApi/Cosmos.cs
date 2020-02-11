@@ -19,10 +19,21 @@ namespace QRCodeReader.CosmosApi
             var url = "https://api.cosmos.bluesoft.com.br/gtins/7891910000197.json";
         }
 
-        public static string GetProductInfo(string url)
+        public static object GetProductInfo(string url)
         {
             CosmosWebClient wc = new CosmosWebClient();
-            return wc.DownloadString(url);
+            try
+            {
+                return wc.DownloadString(url);
+            }
+            catch (AuthenticationRequiredException authEx)
+            {
+                return $"Authentication problem: {authEx.Message}";
+            }
+            catch (Exception ex)
+            {
+                return $"Problem when downloading the product: {ex.Message}";
+            }
         }
     }
 }

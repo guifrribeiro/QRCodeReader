@@ -18,8 +18,8 @@ namespace QRCodeReader.CosmosApi
         protected override WebRequest GetWebRequest(Uri address)
         {
             HttpWebRequest request = (HttpWebRequest)base.GetWebRequest(address);
-            request.Headers["X-Cosmos-Token"] = "AUTH_TOKEN";
-            base.Encoding = System.Text.Encoding.UTF8;
+            request.Headers["X-Cosmos-Token"] = "iHZDpLYr_Kq5O6opM8AnjA";
+            base.Encoding = Encoding.UTF8;
             return request;
         }
     }
